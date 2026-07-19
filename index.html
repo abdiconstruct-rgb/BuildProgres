@@ -629,9 +629,9 @@
     const wibDateOnly = getWIBDateOnly();
 
     document.getElementById('liveClock').textContent = getTimeStr(nowWIB);
-    document.getElementById('footerSync').textContent = `${formatDateShort(wibDateOnly)}`;
+    document.getElementById('footerSync').textContent = ${formatDateShort(wibDateOnly)};
     document.getElementById('sCurveUpdate').textContent = `Last update: ${formatDateShort(wibDateOnly)} · ${getTimeStr(nowWIB)} WIB`;
-    document.getElementById('photoUpdate').textContent = `Pembaruan terakhir: ${formatDateLong(wibDateOnly)};
+    document.getElementById('photoUpdate').textContent = `Pembaruan terakhir: ${formatDateLong(wibDateOnly)}`;
 
     const currentDateMs = wibDateOnly.getTime();
     if (currentDateMs !== lastKnownWIBDate) {
