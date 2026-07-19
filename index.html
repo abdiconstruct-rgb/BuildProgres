@@ -273,7 +273,7 @@
           <div class="absolute inset-0 flex flex-col items-center justify-center">
             <div class="text-[10px] md:text-[11px] uppercase tracking-widest text-[var(--muted)]">Terselesaikan</div>
             <div class="display mono" style="font-size:48px;md:font-size:56px;line-height:1" id="progressNum">0.0<span style="color:var(--accent);font-size:32px">%</span></div>
-            <div class="text-[11px] text-[var(--fg-dim)] mt-1">dari 100% target</div>
+            <div class="text-[11px] text-[var(--fg-dim)] mt-1">Dari 100% Target</div>
             <div class="text-[11px] text-[var(--fg-dim)] mt-1">Target Selesai 8 Bulan</div>
           </div>
         </div>
@@ -629,9 +629,9 @@
     const wibDateOnly = getWIBDateOnly();
 
     document.getElementById('liveClock').textContent = getTimeStr(nowWIB);
-    document.getElementById('footerSync').textContent = `${formatDateShort(wibDateOnly)}, ${getTimeStr(nowWIB)} WIB`;
+    document.getElementById('footerSync').textContent = `${formatDateShort(wibDateOnly)}`;
     document.getElementById('sCurveUpdate').textContent = `Last update: ${formatDateShort(wibDateOnly)} · ${getTimeStr(nowWIB)} WIB`;
-    document.getElementById('photoUpdate').textContent = `Pembaruan terakhir: ${formatDateLong(wibDateOnly)} · ${getTimeStr(nowWIB)} WIB`;
+    document.getElementById('photoUpdate').textContent = `Pembaruan terakhir: ${formatDateLong(wibDateOnly)};
 
     const currentDateMs = wibDateOnly.getTime();
     if (currentDateMs !== lastKnownWIBDate) {
