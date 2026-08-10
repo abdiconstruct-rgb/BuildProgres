@@ -365,7 +365,7 @@
         </div>
       </div>
 
-      <div class="space-y-2.5">
+      <div class="space-y-2.5" id="milestoneList">
            
         <div class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white/[0.02]">
           <div class="flex items-center gap-3 min-w-0">
@@ -512,7 +512,7 @@
   // 8.1 INPUT DATA LAPANGAN (UBAH ANGKA DI SINI SECARA MANUAL)
   // =====================================================================
   const dataDisiplin = [
-{ nama: "Persiapan, Bongkaran, Galian dan Urug", bobot: 	5.00	, progress: 	100.00	, status: "ON-GOING" },
+{ nama: "Persiapan, Bongkaran, Galian dan Urug", bobot: 	5.00	, progress: 	100.00	, status: "SELESAI" },
 { nama: "Pondasi & Struktur (Bawah)", bobot: 	18.07	, progress: 	70.67	, status: "ON-GOING" },
 { nama: "Struktur Atas (L2)", bobot: 	13.16	, progress: 	0.00	, status: "UPCOMING" },
 { nama: "Pekerjaan Arsitektur", bobot: 	39.50	, progress: 	0.00	, status: "UPCOMING" },
@@ -575,13 +575,19 @@
     totalProgressVal += (d.progress * d.bobot / 100);
     totalBobot += d.bobot;
 
+    // ★ DIUBAH: Cek jika progress 100%, ubah status menjadi DONE
+    let currentStatus = d.status;
+    if(d.progress >= 100) {
+      currentStatus = "DONE";
+    }
+
     let pillClass = 'pill';
-    if(d.status === 'SELESAI') pillClass += ' pill-success';
-    else if(d.status === 'ON-GOING') pillClass += ' pill-accent';
+    if(currentStatus === 'DONE' || currentStatus === 'SELESAI') pillClass += ' pill-success';
+    else if(currentStatus === 'ON-GOING' || currentStatus === 'AKTIF') pillClass += ' pill-accent';
 
     let barColor = 'var(--accent)';
-    if(d.status === 'SELESAI') barColor = 'linear-gradient(90deg,#5fd07e,#3da55c)';
-    else if(d.status === 'ON-GOING') barColor = 'var(--accent)';
+    if(currentStatus === 'DONE' || currentStatus === 'SELESAI') barColor = 'linear-gradient(90deg,#5fd07e,#3da55c)';
+    else if(currentStatus === 'ON-GOING' || currentStatus === 'AKTIF') barColor = 'var(--accent)';
     else barColor = 'linear-gradient(90deg,#7c8ba1,#5a6678)';
 
     const html = `
@@ -589,7 +595,7 @@
         <div class="flex items-center justify-between mb-2">
           <div class="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
             <span class="text-[12px] md:text-[13px] font-semibold truncate">${d.nama}</span>
-            <span class="${pillClass} hidden md:inline-flex" style="padding:2px 8px;font-size:9px">${d.status}</span>
+            <span class="${pillClass} hidden md:inline-flex" style="padding:2px 8px;font-size:9px">${currentStatus}</span>
           </div>
           <div class="flex items-center gap-2 md:gap-4 flex-shrink-0 ml-2">
             <span class="text-[10px] md:text-[11px] text-[var(--muted)] mono hidden sm:inline">Bobot ${d.bobot}%</span>
@@ -748,6 +754,20 @@
       scales: {
         x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#6b7382', font: { family: 'JetBrains Mono', size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 6 } },
         y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7382', font: { family: 'JetBrains Mono', size: 10 }, callback: v => v + '%' } }
+      }
+    }
+  });
+
+  // =====================================================================
+  // 8.10 EFEK CORET (STRIKETHROUGH) MILESTONE DONE
+  // =====================================================================
+  document.querySelectorAll('#milestoneList > div').forEach(item => {
+    const statusPill = item.querySelector('.pill-success');
+    if(statusPill && statusPill.textContent.trim() === 'DONE') {
+      const titleEl = item.querySelector('.font-semibold.truncate');
+      if(titleEl) {
+        titleEl.style.textDecoration = 'line-through';
+        titleEl.style.opacity = '0.6';
       }
     }
   });
