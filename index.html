@@ -344,7 +344,7 @@
     <div class="card p-5 md:p-6 xl:col-span-2">
       <div class="flex items-center justify-between mb-5">
         <div class="section-title">Milestone Timeline</div>
-        <span class="text-[10px] md:text-[11px] text-[var(--muted)] mono">3 dari 8</span>
+        <span class="text-[10px] md:text-[11px] text-[var(--muted)] mono">3 dari 9</span>
       </div>
 
       <div class="relative mb-8 mt-8">
@@ -355,6 +355,7 @@
           <div class="ms-dot active" style="left:28%" title="Basement"></div>
           <div class="ms-dot upcoming" style="left:40%" title="Struktur L10"></div>
           <div class="ms-dot upcoming" style="left:52%" title="Struktur L16"></div>
+          <div class="ms-dot upcoming" style="left:60%" title="Pekerjaan Arsitektur"></div> <!-- Ditambahkan titik Arsitektur -->
           <div class="ms-dot upcoming" style="left:68%" title="Top-Off"></div>
           <div class="ms-dot upcoming" style="left:82%" title="MEP Testing"></div>
           <div class="ms-dot upcoming" style="left:92%" title="Finishing"></div>
@@ -398,6 +399,18 @@
             </div>
           </div>
           <span class="text-[10px] mono text-[var(--muted)] flex-shrink-0 ml-2" id="msTopOffDays">- hari</span>
+        </div>
+
+        <!-- ★ DIUBAH: Menambahkan Pekerjaan Arsitektur (Target 17 Okt 2026) -->
+        <div class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white/[0.02]">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-2 h-2 rounded-full flex-shrink-0" style="background:var(--steel)"></div>
+            <div class="min-w-0">
+              <div class="text-[12px] font-semibold truncate">Pekerjaan Arsitektur</div>
+              <div class="text-[10px] text-[var(--muted)] mono" id="msArsitektur">Target: -</div>
+            </div>
+          </div>
+          <span class="text-[10px] mono text-[var(--muted)] flex-shrink-0 ml-2" id="msArsitekturDays">- hari</span>
         </div>
 
         <div class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white/[0.02]">
@@ -512,9 +525,9 @@
   // 8.1 INPUT DATA LAPANGAN (UBAH ANGKA DI SINI SECARA MANUAL)
   // =====================================================================
   const dataDisiplin = [
-{ nama: "Persiapan, Bongkaran, Galian dan Urug", bobot: 	5.00	, progress: 	100.00	, status: "SELESAI" },
+{ nama: "Persiapan, Bongkaran, Galian dan Urug", bobot: 	5.00	, progress: 	100.00	, status: "ON-GOING" },
 { nama: "Pondasi & Struktur (Bawah)", bobot: 	18.07	, progress: 	70.67	, status: "ON-GOING" },
-{ nama: "Struktur Atas (L2)", bobot: 	13.16	, progress: 	0.00	, status: "UPCOMING" },
+{ nama: "Struktur Atas (L2)", bobot: 	13.16	, progress: 	12.12	, status: "UPCOMING" },
 { nama: "Pekerjaan Arsitektur", bobot: 	39.50	, progress: 	0.00	, status: "UPCOMING" },
 { nama: "MEP (Mechanical, Electrical, Plumbing)", bobot: 	19.90	, progress: 	5.47	, status: "ON-GOING" },
 { nama: "Finishing", bobot: 	4.38	, progress: 	0.00	, status: "UPCOMING" },
@@ -653,11 +666,20 @@
   const topOff = addMonths(projectStart, 2);   
   const mepTesting = addMonths(projectStart, 7); 
 
+  // ★ DIUBAH: Penambahan target Arsitektur secara eksplisit (17 Oktober 2026)
+  const arsitekturTarget = new Date(2026, 9, 17); 
+
   document.getElementById('msL10').textContent = `Target: ${formatDateShort(l10Done)}`;
   document.getElementById('msL16').textContent = `Target: ${formatDateShort(l16Active)}`;
   document.getElementById('msTopOff').textContent = `Target: ${formatDateShort(topOff)}`;
+  document.getElementById('msArsitektur').textContent = `Target: ${formatDateShort(arsitekturTarget)}`;
   document.getElementById('msMEP').textContent = `Target: ${formatDateShort(mepTesting)}`;
+  
   document.getElementById('msTopOffDays').textContent = `+${diffDays(topOff, reportDate)} hari`;
+  
+  const arsitekturDays = diffDays(arsitekturTarget, reportDate);
+  document.getElementById('msArsitekturDays').textContent = `${arsitekturDays > 0 ? '+' : ''}${arsitekturDays} hari`;
+  
   document.getElementById('msMEPDays').textContent = `+${diffDays(mepTesting, reportDate)} hari`;
 
   // ★ DIUBAH: Label timeline disesuaikan merata untuk 8 bulan (7 titik)
