@@ -407,6 +407,11 @@
              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               VIEW
             </a></div>
+             <div style="font-size:12px">Pek. Tambahan <span style="margin-left: 15px" class="termin-amount">Rp. 5.804.494</span>
+             <a href="#" class="termin-view-btn">
+             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              VIEW
+            </a></div>
              <div class="termin-status" id="statusTermin2">Memuat progress...</div>
         </div>
       </div>
@@ -644,7 +649,7 @@
           <span class="pill pill-warning flex-shrink-0 ml-2" style="padding:2px 8px;font-size:9px">AKTIF</span>
         </div>
 
-        <!-- FIX: titik AKTIF sekarang berwarna ORANGE -->
+        <!-- Titik AKTIF berwarna ORANGE -->
         <div class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white/[0.02]">
           <div class="flex items-center gap-3 min-w-0">
             <div class="w-2 h-2 rounded-full flex-shrink-0" style="background:var(--accent);box-shadow:0 0 8px var(--accent-glow)"></div>
@@ -656,7 +661,7 @@
           <span class="pill pill-warning flex-shrink-0 ml-2" style="padding:2px 8px;font-size:9px">AKTIF</span>
         </div>
 
-        <!-- FIX: titik AKTIF sekarang berwarna ORANGE -->
+        <!-- Titik AKTIF berwarna ORANGE -->
         <div class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white/[0.02]">
           <div class="flex items-center gap-3 min-w-0">
             <div class="w-2 h-2 rounded-full flex-shrink-0" style="background:var(--accent);box-shadow:0 0 8px var(--accent-glow)"></div>
@@ -769,7 +774,7 @@
 </main>
 
 <!-- =====================================================================
-     BAGIAN 8: JAVASCRIPT (LOGIKA DASBOR) — SUDAH DISELESAIKAN SAMPAI AKHIR
+     BAGIAN 8: JAVASCRIPT (LOGIKA DASBOR)
      ===================================================================== -->
 <script>
   // 8.0 POPUP TAGIHAN TERMIN — LOGIKA BUKA/TUTUP
@@ -916,23 +921,15 @@
   document.getElementById('terminHeaderProgFill').style.width = progressVal + '%';
 
   // 8.5.1 UPDATE STATUS TERMIN OTOMATIS
+  // (RINCIAN PROGRES PER DISIPLIN SUDAH DIHILANGKAN — HANYA TAMPIL PERSENTASE KESELURUHAN)
   (function updateTerminStatuses() {
     const p = progressVal;
-
-    const getDisciplinesHTML = (indices) => {
-      return indices.map(idx => {
-        const d = dataDisiplin[idx];
-        const color = d.progress > 0 ? 'var(--warning)' : 'var(--muted)';
-        return '<span style="color:' + color + '">• ' + d.nama + ': <strong>' + d.progress + '%</strong></span>';
-      }).join('<br>');
-    };
 
     const el1 = document.getElementById('statusTermin1');
     if (el1) {
       el1.innerHTML = `
         <span style="color:var(--success); font-weight:700;">✓ Pembayaran Lunas</span><br>
-        <span style="color:var(--fg-dim);">Progress aktual saat ini berada di tahap ini (Keseluruhan: ${p}%):</span><br>
-        ${getDisciplinesHTML([0, 1])}
+        <span style="color:var(--fg-dim);">Progress aktual keseluruhan saat ini: <strong style="color:var(--fg)">${p}%</strong></span>
       `;
       el1.style.borderColor = 'rgba(95,208,126,0.2)';
       el1.style.background = 'rgba(95,208,126,0.03)';
@@ -943,14 +940,17 @@
       if (p < 25) {
         el2.innerHTML = `<span style="color:var(--muted)">Menunggu progress keseluruhan mencapai 25% (Saat ini: ${p}%)</span>`;
       } else {
-        el2.innerHTML = `<span style="color:var(--warning); font-weight:700;">⏳ Awaiting Payment</span><br><span style="color:var(--fg-dim);">Progress aktual saat ini berada di tahap ini (Keseluruhan: ${p}%):</span><br>${getDisciplinesHTML([2, 3, 4, 5])}`;
+        el2.innerHTML = `
+          <span style="color:var(--warning); font-weight:700;">⏳ Awaiting Payment</span><br>
+          <span style="color:var(--fg-dim);">Progress aktual keseluruhan saat ini: <strong style="color:var(--fg)">${p}%</strong></span>
+        `;
         el2.style.borderColor = 'rgba(255,181,71,0.2)';
         el2.style.background = 'rgba(255,181,71,0.03)';
       }
     }
   })();
 
-  // 8.6 JAM REAL-TIME (WIB) — DISELESAIKAN
+  // 8.6 JAM REAL-TIME (WIB)
   let lastKnownWIBDate = getWIBDateOnly().getTime();
 
   function updateClock() {
@@ -969,7 +969,7 @@
   updateClock();
   setInterval(updateClock, 1000);
 
-  // 8.7 ANIMASI RING PROGRES & ANGKA (COUNT-UP) — DISELESAIKAN
+  // 8.7 ANIMASI RING PROGRES & ANGKA (COUNT-UP)
   (function animateProgressRing() {
     const ring = document.getElementById('progressRing');
     const num = document.getElementById('progressNum');
@@ -997,7 +997,7 @@
     requestAnimationFrame(tick);
   })();
 
-  // 8.8 KURVA S — GRAFIK PROGRES KUMULATIF (CHART.JS) — DISELESAIKAN
+  // 8.8 KURVA S — GRAFIK PROGRES KUMULATIF (CHART.JS)
   (function renderSCurve() {
     const canvas = document.getElementById('sCurveChart');
     if (!canvas || typeof Chart === 'undefined') return;
@@ -1151,7 +1151,7 @@
     });
   })();
 
-  // 8.9 MILESTONE TIMELINE — LABEL BULAN & TARGET TANGGAL — DISELESAIKAN
+  // 8.9 MILESTONE TIMELINE — LABEL BULAN & TARGET TANGGAL
   (function updateMilestones() {
     // Label bulan pada track timeline (7 titik tersebar merata)
     const tlIds = ['tl1', 'tl2', 'tl3', 'tl4', 'tl5', 'tl6', 'tl7'];
@@ -1195,7 +1195,7 @@
     if (bar) setTimeout(() => { bar.style.width = Math.min(progressVal, 100) + '%'; }, 400);
   })();
 
-  // 8.10 INFO PEMBARUAN — DISELESAIKAN
+  // 8.10 INFO PEMBARUAN
   document.getElementById('photoUpdate').textContent = 'Pembaruan terakhir: ' + formatDateLong(reportDate);
   document.getElementById('sCurveUpdate').textContent = 'Last update: ' + formatDateShort(reportDate);
 </script>
