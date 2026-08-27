@@ -160,167 +160,12 @@
   }
   .info-wrap:hover .info-box, .info-wrap:focus-within .info-box { opacity: 1; visibility: visible; bottom: 135%; }
 
-  /* ===== CSS POPUP TAGIHAN TERMIN ===== */
-  .termin-overlay {
-    position: fixed; inset: 0; z-index: 9999;
-    background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s ease;
-    padding: 16px;
-  }
-  .termin-overlay.show { opacity: 1; visibility: visible; }
-
-  .termin-modal {
-    background: linear-gradient(180deg, #151a22, #0e1218);
-    border: 1px solid var(--border-bright); border-radius: 16px;
-    width: 100%; max-width: 680px; max-height: 90vh;
-    display: flex; flex-direction: column;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,107,26,0.08);
-    transform: translateY(24px) scale(0.97); transition: transform 0.35s cubic-bezier(.2,.8,.2,1);
-    overflow: hidden;
-  }
-  .termin-overlay.show .termin-modal { transform: translateY(0) scale(1); }
-
-  .termin-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 22px; border-bottom: 1px solid var(--border);
-    background: linear-gradient(180deg, rgba(255,107,26,0.06), transparent);
-    flex-shrink: 0; flex-wrap: wrap; gap: 12px;
-  }
-  .termin-header-title {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 15px; font-weight: 800; letter-spacing: -0.01em; color: var(--fg);
-  }
-  .termin-header-icon {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: linear-gradient(135deg, var(--accent), #cc4d0a);
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    box-shadow: 0 0 16px var(--accent-glow);
-  }
-
-  .termin-header-progress {
-    display: flex; align-items: center; gap: 10px;
-    margin-left: auto;
-    padding: 6px 14px; border-radius: 8px;
-    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-  }
-  .termin-header-prog-label {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--fg-dim); font-weight: 600;
-  }
-  .termin-header-prog-bar {
-    width: 80px; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;
-  }
-  .termin-header-prog-fill {
-    height: 100%; background: linear-gradient(90deg, var(--accent), var(--hi-vis)); border-radius: 3px;
-    transition: width 0.8s ease; box-shadow: 0 0 8px var(--accent-glow);
-  }
-  .termin-header-prog-val {
-    font-size: 14px; font-weight: 800; color: var(--hi-vis); letter-spacing: -0.02em;
-  }
-
-  .termin-close-x {
-    width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border-bright);
-    background: var(--surface-3); color: var(--muted); font-size: 18px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
-    transition: all 0.2s; line-height: 1; flex-shrink: 0;
-  }
-  .termin-close-x:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
-
-  .termin-body {
-    padding: 18px 22px; overflow-y: auto; flex: 1;
-  }
-  .termin-body::-webkit-scrollbar { width: 5px; }
-  .termin-body::-webkit-scrollbar-track { background: transparent; }
-  .termin-body::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
-
-  .termin-row {
-    display: flex; gap: 14px; padding: 14px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-  .termin-row:last-child { border-bottom: none; }
-
-  .termin-num {
-    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 800; letter-spacing: -0.02em;
-    border: 1px solid var(--border-bright); background: var(--surface-3); color: var(--fg-dim);
-  }
-  .termin-num.dp { background: linear-gradient(135deg, var(--accent), #cc4d0a); color: #1a1300; border-color: var(--accent); }
-  .termin-num.done { background: linear-gradient(135deg, #5fd07e, #3da55c); color: #0a2e16; border-color: var(--success); }
-  .termin-num.active { background: var(--accent); color: #1a1300; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(255,107,26,0.2); }
-
-  .termin-info { flex: 1; min-width: 0; }
-  .termin-label {
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--accent); margin-bottom: 4px;
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  }
-  .termin-desc {
-    font-size: 12px; line-height: 1.65; color: var(--fg-dim);
-  }
-  .termin-desc strong { color: var(--fg); font-weight: 700; }
-  .termin-amount {
-    font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700;
-    color: var(--hi-vis); margin-top: 6px; display: inline-block;
-    background: rgba(255,212,0,0.06); padding: 4px 10px; border-radius: 6px;
-    border: 1px solid rgba(255,212,0,0.15);
-  }
-  .termin-amount.done { color: var(--success); background: rgba(95,208,126,0.06); border-color: rgba(95,208,126,0.15); }
-
-  .termin-view-btn {
-    padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 700;
-    letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-dim);
-    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-    text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px;
-  }
-  .termin-view-btn:hover { background: var(--accent); color: #1a1300; border-color: var(--accent); }
-  .termin-view-btn svg { width: 10px; height: 10px; }
-
-  .termin-status {
-    margin-top: 8px; padding: 8px 12px; border-radius: 8px; font-size: 11px; line-height: 1.5;
-    border: 1px solid var(--border); background: rgba(255,255,255,0.02);
-  }
-
-  .pill-lunas {
-    display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px;
-    font-size: 9px; font-weight: 700; letter-spacing: 0.04em;
-    background: rgba(95,208,126,0.1); color: var(--success); border: 1px solid rgba(95,208,126,0.3);
-    text-transform: uppercase;
-  }
-
-  .termin-footer {
-    padding: 16px 22px; border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    background: rgba(0,0,0,0.25); flex-shrink: 0;
-  }
-  .termin-total {
-    font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
-  }
-  .termin-total-val {
-    font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: var(--fg);
-    margin-top: 2px;
-  }
-  .termin-close-btn {
-    padding: 10px 32px; border-radius: 10px; border: none; cursor: pointer;
-    font-family: 'Archivo', system-ui, sans-serif; font-size: 13px; font-weight: 700;
-    letter-spacing: 0.02em; transition: all 0.2s;
-    background: linear-gradient(135deg, var(--accent), #cc4d0a); color: #1a1300;
-    box-shadow: 0 0 20px var(--accent-glow);
-  }
-  .termin-close-btn:hover { transform: translateY(-1px); box-shadow: 0 0 30px var(--accent-glow); filter: brightness(1.1); }
-
   /* Responsive Typography & Sizing */
   @media (max-width:640px){
     .display-xl{font-size:40px !important;line-height:1 !important}
     .ring-wrap{width:180px;height:180px}
     .ring-wrap svg{width:180px;height:180px}
     #progressNum{font-size:42px !important}
-    .termin-modal { max-width: 100%; }
-    .termin-row { gap: 10px; }
-    .termin-desc { font-size: 11px; }
-    .termin-amount { font-size: 11px; }
-    .termin-header-progress { width: 100%; order: 3; margin-left: 0; justify-content: space-between; }
   }
   @media (min-width:641px) and (max-width:768px){
     .display-xl{font-size:40px !important;line-height:1 !important}
@@ -332,112 +177,6 @@
 </head>
 
 <body>
-
-<!-- =====================================================================
-     POPUP TAGIHAN TERMIN — ★ RUBAH VALUE DI SINI
-     ===================================================================== -->
-<div class="termin-overlay" id="terminOverlay">
-
-  <div class="termin-modal">
-
-    <!-- HEADER dengan Progress Aktual & tombol X -->
-    <div class="termin-header">
-      <div class="termin-header-title">
-        <div class="termin-header-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a1300" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-        </div>
-        <span>Tagihan Termin Pembayaran</span>
-      </div>
-
-      <!-- PROGRESS AKTUAL DI HEADER -->
-      <div class="termin-header-progress">
-        <span class="termin-header-prog-label">Progress Aktual</span>
-        <div class="termin-header-prog-bar">
-          <div class="termin-header-prog-fill" id="terminHeaderProgFill" style="width: 0%"></div>
-        </div>
-        <span class="termin-header-prog-val mono" id="terminHeaderProgVal">0%</span>
-      </div>
-
-      <button class="termin-close-x" id="terminCloseX" aria-label="Tutup">&times;</button>
-    </div>
-
-    <!-- BODY daftar termin -->
-    <div class="termin-body">
-
-      <!-- ===== TERMIN 1 (Down Payment) - LUNAS ===== -->
-      <div class="termin-row">
-        <div class="termin-num done">1</div>
-        <div class="termin-info">
-          <div class="termin-label">
-            Down Payment (Tahap 1)
-            <span class="pill-lunas">✓ Lunas</span>
-          </div>
-          <div class="termin-desc">
-            Pembayaran sebesar <strong>25%</strong> (dua puluh lima persen), pembayaran dilakukan saat progress pekerjaan <strong>0%</strong> (nol persen) dan akan dilaksanakan sampai dengan <strong>25%</strong> (dua puluh lima persen).
-          </div>
-          <!-- ★ RUBAH VALUE DI SINI: Nominal -->
-          <div style="font-size:12px"><span style="margin-left: 15px" class="termin-amount done">Rp. 397.750.000</span>
-          <a href="https://raw.githubusercontent.com/abdiconstruct-rgb/reportprogres/refs/heads/main/Paymen%20DP.jpeg" class="termin-view-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              VIEW
-            </a></div>
-          <div style="font-size:10px;color:var(--success);margin-top:3px;font-style:italic">Tiga ratus sembilan puluh tujuh juta tujuh ratus lima puluh ribu rupiah</div>
-          <div class="termin-status" id="statusTermin1">Memuat progress...</div>
-        </div>
-      </div>
-
-      <!-- ===== TERMIN 2 ===== -->
-      <div class="termin-row">
-        <div class="termin-num active">2</div>
-        <div class="termin-info">
-          <div class="termin-label">Tahap 2</div>
-          <div class="termin-desc">
-            Pembayaran sebesar <strong>25%</strong> (dua puluh lima persen), pembayaran dilakukan saat progress pekerjaan <strong>25%</strong> (dua puluh lima persen) dan akan dilaksanakan sampai dengan <strong>50%</strong> (lima puluh persen).
-          </div>
-          <!-- ★ RUBAH VALUE DI SINI: Nominal -->
-          <div style="font-size:12px">Termin Ke-1 <span style="margin-left: 15px" class="termin-amount">Rp. 397.750.000</span>
-          <a href="https://raw.githubusercontent.com/abdiconstruct-rgb/BuildProgres/refs/heads/main/Termin1.png" class="termin-view-btn">
-             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              VIEW
-            </a>
-          </div>
-          <div style="font-size:10px;color:var(--muted);margin-top:3px;font-style:italic">Tiga ratus sembilan puluh tujuh juta tujuh ratus lima puluh ribu rupiah</div>
-          
-             <div style="font-size:12px">Token Listrik 1 <span style="margin-left: 15px" class="termin-amount">Rp. 102.750</span>
-              <a href="https://raw.githubusercontent.com/abdiconstruct-rgb/reportprogres/refs/heads/main/Token%20Listrik%201.jpeg" class="termin-view-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              VIEW
-            </a></div>
-             
-          <div style="font-size:12px">Token Listrik 2 <span style="margin-left: 15px" class="termin-amount">Rp. 503.500</span>
-             <a href="https://raw.githubusercontent.com/abdiconstruct-rgb/reportprogres/refs/heads/main/Token%20Listrik%202.jpeg" class="termin-view-btn">
-             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              VIEW
-            </a></div>
-             <div style="font-size:12px">Form CCO <span style="margin-left: 15px" class="termin-amount">Rp. 5.804.494</span>
-             <a href="https://raw.githubusercontent.com/abdiconstruct-rgb/BuildProgres/refs/heads/main/TTD%20CCO.png" class="termin-view-btn">
-             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              VIEW
-            </a></div>
-             <div class="termin-status" id="statusTermin2">Memuat progress...</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- FOOTER dengan tombol Close -->
-    <div class="termin-footer">
-      <div>
-        <div class="termin-total">Total Tagihan</div>
-        <!-- ★ RUBAH VALUE DI SINI: Total keseluruhan -->
-        <div class="termin-total-val">Rp. 404.160.744</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:3px;font-style:italic">Empat ratus empat juta seratus enam puluh ribu tujuh ratus empat puluh empat rupiah</div>
-      </div>
-      <button class="termin-close-btn" id="terminCloseBtn">CLOSE</button>
-    </div>
-
-  </div>
-</div>
 
 <!-- =====================================================================
      BAGIAN 2: HEADER ATAS
@@ -589,7 +328,7 @@
         <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm" style="background:#7c8ba1"></span><span class="text-[10px] md:text-[11px] text-[var(--fg-dim)]">Planned (Baseline)</span></div>
         <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm" style="background:var(--accent)"></span><span class="text-[10px] md:text-[11px] text-[var(--fg-dim)]">Actual Progress</span></div>
         <div class="flex items-center gap-2"><span class="w-3 h-0.5" style="background:var(--hi-vis)"></span><span class="text-[10px] md:text-[11px] text-[var(--fg-dim)]">Hari Ini</span></div>
-        <div class="ml-auto text-[10px] md:text-[11px] text-[var(--muted)] mono" id="sCurveUpdate">Last update: --</div>
+        <div class="ml-auto text-[10px] md:text-[11px] text-[var(--muted)] mono" id="sCurveUpdate">Last update: -</div>
       </div>
     </div>
   </section>
@@ -784,37 +523,14 @@
      BAGIAN 8: JAVASCRIPT (LOGIKA DASBOR)
      ===================================================================== -->
 <script>
-  // 8.0 POPUP TAGIHAN TERMIN — LOGIKA BUKA/TUTUP
-  (function() {
-    const overlay = document.getElementById('terminOverlay');
-    const closeX = document.getElementById('terminCloseX');
-    const closeBtn = document.getElementById('terminCloseBtn');
-
-    function closePopup() {
-      overlay.classList.remove('show');
-      setTimeout(() => { overlay.style.display = 'none'; }, 400);
-    }
-
-    setTimeout(() => { overlay.classList.add('show'); }, 600);
-
-    closeX.addEventListener('click', closePopup);
-    closeBtn.addEventListener('click', closePopup);
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) closePopup();
-    });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && overlay.classList.contains('show')) closePopup();
-    });
-  })();
-
   // 8.1 INPUT DATA LAPANGAN — ★ RUBAH DATA PROGRES DI SINI
   const dataDisiplin = [
-    { nama: "Persiapan, Bongkaran, Galian dan Urug", bobot: 5.00, progress: 100.00, status: "ON-GOING" },
-    { nama: "Pondasi & Struktur (Bawah)", bobot: 18.07, progress: 70.67, status: "ON-GOING" },
-    { nama: "Struktur Atas (L2)", bobot: 13.16, progress: 36.18, status: "ON-GOING" },
-    { nama: "MEP (Mechanical, Electrical, Plumbing)", bobot: 19.90, progress: 5.85, status: "ON-GOING" },
-    { nama: "Pekerjaan Arsitektur", bobot: 39.50, progress: 3.71, status: "ON-GOING" },
-    { nama: "Finishing", bobot: 4.38, progress: 0.00, status: "UPCOMING" },
+{ nama: "Persiapan, Bongkaran, Galian dan Urug", bobot: 	5.00	, progress: 	100.00	, status: "ON-GOING" },
+{ nama: "Pondasi & Struktur (Bawah)", bobot: 	18.07	, progress: 	72.97	, status: "ON-GOING" },
+{ nama: "Struktur Atas (L2)", bobot: 	13.16	, progress: 	47.98	, status: "UPCOMING" },
+{ nama: "Pekerjaan Arsitektur", bobot: 	39.50	, progress: 	6.45	, status: "UPCOMING" },
+{ nama: "MEP (Mechanical, Electrical, Plumbing)", bobot: 	19.90	, progress: 	5.85	, status: "ON-GOING" },
+{ nama: "Finishing", bobot: 	4.38	, progress: 	0.00	, status: "UPCOMING" },
   ];
 
   // 8.2 FUNGSI BANTU TANGGAL & WAKTU WIB
@@ -914,297 +630,166 @@
   const varianceVal = (progressVal - plannedVal).toFixed(1);
   const spiVal = (progressVal / plannedVal).toFixed(2);
 
-  // 8.5 UPDATE UI DASBOR
+  // 8.5 UPDATE UI DASBOR (PROGRES)
   document.getElementById('contractProgress').textContent = 'Bulan Ke-' + (monthsPassed + 1) + ' / ' + contractDuration;
   document.getElementById('contractDurationPill').textContent = 'Kontrak: ' + contractDuration + ' Bulan';
   document.getElementById('endInfo').textContent = (daysLeft > 0 ? daysLeft + ' hari lagi' : 'Selesai');
   document.getElementById('plannedPercent').textContent = plannedVal + '%';
   document.getElementById('variancePercent').textContent = (varianceVal > 0 ? '+' : '') + varianceVal + '%';
-  document.getElementById('variancePercent').style.color = varianceVal < 0 ? 'var(--danger)' : 'var(--success)';
   document.getElementById('spiVal').textContent = spiVal;
+  
+  // Update Progress Ring (Animasi SVG lingkaran)
+  const ring = document.getElementById('progressRing');
+  const ringCircumference = 578; // 2 * pi * 92
+  const ringOffset = ringCircumference - (progressVal / 100) * ringCircumference;
+  setTimeout(() => { ring.style.strokeDashoffset = ringOffset; }, 400);
 
-  // Update Progress Aktual di Header Popup
-  document.getElementById('terminHeaderProgVal').textContent = progressVal + '%';
-  document.getElementById('terminHeaderProgFill').style.width = progressVal + '%';
+  // Animasi Angka Persentase Progres
+  const progNumEl = document.getElementById('progressNum');
+  const duration = 1500;
+  const startTime = performance.now();
+  function animateProgNum(now) {
+    const elapsed = now - startTime;
+    const progAnim = Math.min(elapsed / duration, 1);
+    const current = progAnim * progressVal;
+    progNumEl.innerHTML = current.toFixed(1) + '<span style="color:var(--accent);font-size:32px">%</span>';
+    if (progAnim < 1) requestAnimationFrame(animateProgNum);
+  }
+  requestAnimationFrame(animateProgNum);
 
-  // 8.5.1 UPDATE STATUS TERMIN OTOMATIS
-  // (RINCIAN PROGRES PER DISIPLIN SUDAH DIHILANGKAN — HANYA TAMPIL PERSENTASE KESELURUHAN)
-  (function updateTerminStatuses() {
-    const p = progressVal;
+  // 8.6 RENDER KURVA S (CHART.JS)
+  const labels = [];
+  const plannedData = [];
+  const actualData = [];
 
-    const el1 = document.getElementById('statusTermin1');
-    if (el1) {
-      el1.innerHTML = `
-        <span style="color:var(--success); font-weight:700;">✓ Pembayaran Lunas</span><br>
-        <span style="color:var(--fg-dim);">Progress aktual keseluruhan saat ini: <strong style="color:var(--fg)">${p}%</strong></span>
-      `;
-      el1.style.borderColor = 'rgba(95,208,126,0.2)';
-      el1.style.background = 'rgba(95,208,126,0.03)';
-    }
+  for (let i = 0; i <= contractDuration; i++) {
+    const d = addMonths(projectStart, i);
+    labels.push(monthNamesShort[d.getMonth()] + ' ' + d.getFullYear().toString().slice(-2));
+    
+    // Hitung planned progress kumulatif untuk setiap bulan (S-Curve logistic)
+    let pVal = +(1 / (1 + Math.exp(-7 * ((i / contractDuration) - 0.5))) * 100).toFixed(1);
+    if (i >= contractDuration) pVal = 100.0;
+    plannedData.push(pVal);
 
-    const el2 = document.getElementById('statusTermin2');
-    if (el2) {
-      if (p < 25) {
-        el2.innerHTML = `<span style="color:var(--muted)">Menunggu progress keseluruhan mencapai 25% (Saat ini: ${p}%)</span>`;
-      } else {
-        el2.innerHTML = `
-          <span style="color:var(--warning); font-weight:700;">⏳ Awaiting Payment</span><br>
-          <span style="color:var(--fg-dim);">Progress aktual keseluruhan saat ini: <strong style="color:var(--fg)">${p}%</strong></span>
-        `;
-        el2.style.borderColor = 'rgba(255,181,71,0.2)';
-        el2.style.background = 'rgba(255,181,71,0.03)';
-      }
-    }
-  })();
-
-  // 8.6 JAM REAL-TIME (WIB)
-  let lastKnownWIBDate = getWIBDateOnly().getTime();
-
-  function updateClock() {
-    const nowWIB = getWIBNow();
-    const wibDateOnly = getWIBDateOnly();
-
-    document.getElementById('liveClock').textContent = getTimeStr(nowWIB);
-    document.getElementById('footerSync').textContent = getTimeStr(nowWIB) + ' WIB';
-
-    // Auto-refresh dashboard saat tanggal berganti
-    if (wibDateOnly.getTime() !== lastKnownWIBDate) {
-      lastKnownWIBDate = wibDateOnly.getTime();
-      location.reload();
+    // Isi data aktual sesuai progres yang sudah tercapai
+    if (i < monthsPassed) {
+      actualData.push(pVal); // Anggap planned = actual untuk bulan yang sudah lewat (bisa dirubah manual)
+    } else if (i === monthsPassed) {
+      actualData.push(progressVal);
+    } else {
+      actualData.push(null);
     }
   }
-  updateClock();
-  setInterval(updateClock, 1000);
 
-  // 8.7 ANIMASI RING PROGRES & ANGKA (COUNT-UP)
-  (function animateProgressRing() {
-    const ring = document.getElementById('progressRing');
-    const num = document.getElementById('progressNum');
-    if (!ring || !num) return;
-
-    const C = 2 * Math.PI * 92; // keliling lingkaran r=92 (± 578)
-    const target = Math.max(0, Math.min(progressVal, 100));
-    const offset = C - (C * target / 100);
-
-    ring.style.strokeDasharray = C;
-    ring.style.strokeDashoffset = C;
-
-    // Trigger transisi CSS setelah render pertama
-    setTimeout(() => { ring.style.strokeDashoffset = offset; }, 200);
-
-    // Count-up angka progres
-    const duration = 1600;
-    const t0 = performance.now();
-    function tick(now) {
-      const t = Math.min((now - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - t, 3);
-      num.innerHTML = (target * eased).toFixed(1) + '<span style="color:var(--accent);font-size:32px">%</span>';
-      if (t < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  })();
-
-  // 8.8 KURVA S — GRAFIK PROGRES KUMULATIF (CHART.JS)
-  (function renderSCurve() {
-    const canvas = document.getElementById('sCurveChart');
-    if (!canvas || typeof Chart === 'undefined') return;
-
-    const labels = [];
-    const plannedData = [];
-    const actualData = [];
-
-    for (let i = 0; i <= contractDuration; i++) {
-      const d = addMonths(projectStart, i);
-      labels.push(monthNamesShort[d.getMonth()] + " '" + String(d.getFullYear()).slice(-2));
-
-      // Kurva rencana (bentuk S / logistic)
-      let pv = (1 / (1 + Math.exp(-7 * ((i / contractDuration) - 0.5)))) * 100;
-      if (i === 0) pv = 0;
-      if (i === contractDuration) pv = 100;
-      plannedData.push(+pv.toFixed(1));
-
-      // Kurva aktual: hanya sampai bulan berjalan
-      if (i === 0) {
-        actualData.push(monthsPassed === 0 ? progressVal : 0);
-      } else if (monthsPassed > 0 && i <= monthsPassed) {
-        const ratio = i / monthsPassed;
-        let av = (i === monthsPassed) ? progressVal : progressVal * Math.pow(ratio, 1.25);
-        actualData.push(+av.toFixed(1));
-      } else {
-        actualData.push(null);
-      }
-    }
-
-    // Posisi garis "Hari Ini" (indeks bulan, pecahan)
-    const msPerDay = 86400000;
-    let fracMonth = (reportDate - projectStart) / (msPerDay * 30.4375);
-    fracMonth = Math.max(0, Math.min(contractDuration, fracMonth));
-
-    const ctx = canvas.getContext('2d');
-    const grad = ctx.createLinearGradient(0, 0, 0, 300);
-    grad.addColorStop(0, 'rgba(255,107,26,0.28)');
-    grad.addColorStop(1, 'rgba(255,107,26,0)');
-
-    // Plugin garis penanda "HARI INI"
-    const todayLine = {
-      id: 'todayLine',
-      afterDatasetsDraw(chart) {
-        const { ctx, chartArea, scales } = chart;
-        if (!chartArea || !scales.x) return;
-        const x = scales.x.getPixelForValue(fracMonth);
-        if (isNaN(x)) return;
-        ctx.save();
-        ctx.strokeStyle = 'rgba(255,212,0,0.45)';
-        ctx.setLineDash([4, 4]);
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(x, chartArea.top);
-        ctx.lineTo(x, chartArea.bottom);
-        ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = 'rgba(255,212,0,0.9)';
-        ctx.font = "700 9px 'JetBrains Mono', monospace";
-        const label = 'HARI INI';
-        const w = ctx.measureText(label).width;
-        const tx = (x + 6 + w > chartArea.right) ? x - 6 - w : x + 6;
-        ctx.fillText(label, tx, chartArea.top + 10);
-        ctx.restore();
-      }
-    };
-
-    new Chart(canvas, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Planned',
-            data: plannedData,
-            borderColor: '#7c8ba1',
-            backgroundColor: 'rgba(124,139,161,0.10)',
-            borderWidth: 2,
-            borderDash: [6, 4],
-            pointRadius: 0,
-            pointHoverRadius: 5,
-            pointBackgroundColor: '#7c8ba1',
-            tension: 0.4,
-            fill: false
-          },
-          {
-            label: 'Actual',
-            data: actualData,
-            borderColor: '#ff6b1a',
-            backgroundColor: grad,
-            borderWidth: 2.5,
-            pointRadius: 3.5,
-            pointHoverRadius: 6,
-            pointBackgroundColor: '#ff6b1a',
-            pointBorderColor: '#0a0c0f',
-            pointBorderWidth: 2,
-            tension: 0.4,
-            fill: true,
-            spanGaps: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: '#171c24',
-            borderColor: '#38414f',
-            borderWidth: 1,
-            titleColor: '#ecebe6',
-            bodyColor: '#a8aebb',
-            titleFont: { family: "'JetBrains Mono', monospace", size: 11 },
-            bodyFont: { family: "'JetBrains Mono', monospace", size: 11 },
-            padding: 10,
-            displayColors: true,
-            boxWidth: 8,
-            boxHeight: 8,
-            filter: function(item) { return item.parsed.y !== null; },
-            callbacks: {
-              label: function(c) { return ' ' + c.dataset.label + ': ' + c.parsed.y + '%'; }
-            }
-          }
+  const sCurveCtx = document.getElementById('sCurveChart').getContext('2d');
+  new Chart(sCurveCtx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Planned (Baseline)',
+          data: plannedData,
+          borderColor: '#7c8ba1',
+          backgroundColor: 'rgba(124,139,161,0.1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 0,
+          pointHoverRadius: 5,
         },
-        scales: {
-          x: {
-            grid: { color: 'rgba(255,255,255,0.04)', drawTicks: false },
-            border: { color: 'rgba(255,255,255,0.08)' },
-            ticks: {
-              color: '#6b7382',
-              font: { family: "'JetBrains Mono', monospace", size: 9 },
-              maxRotation: 0, autoSkip: true, maxTicksLimit: 9
-            }
-          },
-          y: {
-            min: 0, max: 100,
-            grid: { color: 'rgba(255,255,255,0.04)', drawTicks: false },
-            border: { color: 'rgba(255,255,255,0.08)' },
-            ticks: {
-              color: '#6b7382',
-              stepSize: 25,
-              font: { family: "'JetBrains Mono', monospace", size: 9 },
-              callback: function(v) { return v + '%'; }
+        {
+          label: 'Actual Progress',
+          data: actualData,
+          borderColor: '#ff6b1a',
+          backgroundColor: 'rgba(255,107,26,0.15)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#ff6b1a',
+          pointHoverRadius: 6,
+          spanGaps: true
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#11151b',
+          titleColor: '#ecebe6',
+          bodyColor: '#a8aebb',
+          borderColor: '#262d38',
+          borderWidth: 1,
+          padding: 10,
+          callbacks: {
+            label: function(context) {
+              return context.dataset.label + ': ' + (context.parsed.y !== null ? context.parsed.y + '%' : 'Belum dimulai');
             }
           }
         }
       },
-      plugins: [todayLine]
-    });
-  })();
-
-  // 8.9 MILESTONE TIMELINE — LABEL BULAN & TARGET TANGGAL
-  (function updateMilestones() {
-    // Label bulan pada track timeline (7 titik tersebar merata)
-    const tlIds = ['tl1', 'tl2', 'tl3', 'tl4', 'tl5', 'tl6', 'tl7'];
-    tlIds.forEach((id, idx) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const mi = Math.round(idx * contractDuration / 6);
-      const d = addMonths(projectStart, mi);
-      el.textContent = monthNamesShort[d.getMonth()] + " '" + String(d.getFullYear()).slice(-2);
-    });
-
-    // ★ RUBAH TARGET MILESTONE DI SINI (angka = bulan ke- dari mulai proyek)
-    const mPersiapan  = addMonths(projectStart, 1); // 17 Jul 2026
-    const mPondasi    = addMonths(projectStart, 3); // 17 Sep 2026
-    const mTopOff     = addMonths(projectStart, 5); // 17 Nov 2026
-    const mArsitektur = addMonths(projectStart, 6); // 17 Des 2026
-    const mMEP        = addMonths(projectStart, 7); // 17 Jan 2027
-
-    const setTarget = (id, date, done) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.textContent = (done ? '✓ Selesai: ' : 'Target: ') + formatDateShort(date);
-      if (done) el.style.color = 'var(--success)';
-    };
-
-    setTarget('msL10', mPersiapan, true);   // Persiapan (sudah DONE)
-    setTarget('msL16', mPondasi, false);    // Pondasi & Struktur Bawah
-    setTarget('msTopOff', mTopOff, false);  // Struktur Top-Off (L2)
-    setTarget('msArsitektur', mArsitektur, false); // Pekerjaan Arsitektur
-    setTarget('msMEP', mMEP, false);        // MEP Testing
-
-    const mepDaysEl = document.getElementById('msMEPDays');
-    if (mepDaysEl) {
-      const dd = diffDays(mMEP, reportDate);
-      mepDaysEl.textContent = dd > 0 ? dd + ' hari lagi' : 'Sekarang';
-      mepDaysEl.style.color = dd > 0 ? 'var(--muted)' : 'var(--success)';
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#6b7382', font: { family: 'JetBrains Mono', size: 10 } }
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: {
+            color: '#6b7382',
+            font: { family: 'JetBrains Mono', size: 10 },
+            callback: function(value) { return value + '%'; }
+          }
+        }
+      }
     }
+  });
 
-    // Progress bar timeline mengikuti progres aktual
-    const bar = document.getElementById('msProgressBar');
-    if (bar) setTimeout(() => { bar.style.width = Math.min(progressVal, 100) + '%'; }, 400);
-  })();
+  document.getElementById('sCurveUpdate').textContent = formatDateShort(reportDate);
+  document.getElementById('photoUpdate').textContent = 'Pembaruan terakhir: ' + formatDateShort(reportDate);
 
-  // 8.10 INFO PEMBARUAN
-  document.getElementById('photoUpdate').textContent = 'Pembaruan terakhir: ' + formatDateLong(reportDate);
-  document.getElementById('sCurveUpdate').textContent = 'Last update: ' + formatDateShort(reportDate);
+  // 8.7 MILESTONE & LIVE CLOCK
+  document.getElementById('msProgressBar').style.width = progressVal + '%';
+  
+  const msL10Date = addMonths(projectStart, 0);
+  document.getElementById('msL10').textContent = 'Target: ' + formatDateShort(msL10Date);
+
+  const msL16Date = addMonths(projectStart, 1);
+  document.getElementById('msL16').textContent = 'Target: ' + formatDateShort(msL16Date);
+
+  const msTopOffDate = addMonths(projectStart, 3);
+  document.getElementById('msTopOff').textContent = 'Target: ' + formatDateShort(msTopOffDate);
+  
+  const msArsitekturDate = addMonths(projectStart, 4);
+  document.getElementById('msArsitektur').textContent = 'Target: ' + formatDateShort(msArsitekturDate);
+
+  const msMEPDate = addMonths(projectStart, 6);
+  document.getElementById('msMEP').textContent = 'Target: ' + formatDateShort(msMEPDate);
+  document.getElementById('msMEPDays').textContent = diffDays(msMEPDate, reportDate) + ' hari';
+
+  // Timeline Bawah
+  document.getElementById('tl1').textContent = formatDateShort(addMonths(projectStart, 0));
+  document.getElementById('tl2').textContent = formatDateShort(addMonths(projectStart, 1));
+  document.getElementById('tl3').textContent = formatDateShort(addMonths(projectStart, 2));
+  document.getElementById('tl4').textContent = formatDateShort(addMonths(projectStart, 3));
+  document.getElementById('tl5').textContent = formatDateShort(addMonths(projectStart, 4));
+  document.getElementById('tl6').textContent = formatDateShort(addMonths(projectStart, 6));
+  document.getElementById('tl7').textContent = formatDateShort(projectEnd);
+
+  function updateClock() {
+    document.getElementById('liveClock').textContent = getTimeStr(getWIBNow());
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  document.getElementById('footerSync').textContent = formatDateLong(reportDate) + ' ' + getTimeStr(getWIBNow());
 </script>
 
 </body>
