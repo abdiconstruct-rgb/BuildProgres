@@ -328,7 +328,7 @@
         <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm" style="background:#7c8ba1"></span><span class="text-[10px] md:text-[11px] text-[var(--fg-dim)]">Planned (Baseline)</span></div>
         <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-sm" style="background:var(--accent)"></span><span class="text-[10px] md:text-[11px] text-[var(--fg-dim)]">Actual Progress</span></div>
         <div class="flex items-center gap-2"><span class="w-3 h-0.5" style="background:var(--hi-vis)"></span><span class="text-[10px] md:text-[11px] text-[var(--fg-dim)]">Hari Ini</span></div>
-        <div class="ml-auto text-[10px] md:text-[11px] text-[var(--muted)] mono" id="sCurveUpdate">Last update: -</div>
+        <div class="ml-auto text-[10px] md:text-[11px] text-[var(--muted)] mono" id="sCurveUpdate">Last update: --</div>
       </div>
     </div>
   </section>
@@ -523,14 +523,16 @@
      BAGIAN 8: JAVASCRIPT (LOGIKA DASBOR)
      ===================================================================== -->
 <script>
+  // 8.0 (DIHAPUS) — Logika Popup Tagihan Termin sudah tidak dipakai
+
   // 8.1 INPUT DATA LAPANGAN — ★ RUBAH DATA PROGRES DI SINI
   const dataDisiplin = [
-{ nama: "Persiapan, Bongkaran, Galian dan Urug", bobot: 	5.00	, progress: 	100.00	, status: "ON-GOING" },
-{ nama: "Pondasi & Struktur (Bawah)", bobot: 	18.07	, progress: 	72.97	, status: "ON-GOING" },
-{ nama: "Struktur Atas (L2)", bobot: 	13.16	, progress: 	47.98	, status: "ON-GOING" },
-{ nama: "Pekerjaan Arsitektur", bobot: 	39.50	, progress: 	6.45	, status: "ON-GOING" },
-{ nama: "MEP (Mechanical, Electrical, Plumbing)", bobot: 	19.90	, progress: 	5.85	, status: "ON-GOING" },
-{ nama: "Finishing", bobot: 	4.38	, progress: 	0.00	, status: "UPCOMING" },
+    { nama: "Persiapan, Bongkaran, Galian dan Urug", bobot: 5.00, progress: 100.00, status: "ON-GOING" },
+    { nama: "Pondasi & Struktur (Bawah)", bobot: 18.07, progress: 74.14, status: "ON-GOING" },
+    { nama: "Struktur Atas (L2)", bobot: 13.16, progress: 47.98, status: "ON-GOING" },
+    { nama: "MEP (Mechanical, Electrical, Plumbing)", bobot: 19.90, progress: 7.54, status: "ON-GOING" },
+    { nama: "Pekerjaan Arsitektur", bobot: 39.50, progress: 5.85, status: "ON-GOING" },
+    { nama: "Finishing", bobot: 4.38, progress: 0.00, status: "UPCOMING" },
   ];
 
   // 8.2 FUNGSI BANTU TANGGAL & WAKTU WIB
@@ -630,86 +632,124 @@
   const varianceVal = (progressVal - plannedVal).toFixed(1);
   const spiVal = (progressVal / plannedVal).toFixed(2);
 
-  // 8.5 UPDATE UI DASBOR (PROGRES)
+  // 8.5 UPDATE UI DASBOR
   document.getElementById('contractProgress').textContent = 'Bulan Ke-' + (monthsPassed + 1) + ' / ' + contractDuration;
   document.getElementById('contractDurationPill').textContent = 'Kontrak: ' + contractDuration + ' Bulan';
   document.getElementById('endInfo').textContent = (daysLeft > 0 ? daysLeft + ' hari lagi' : 'Selesai');
   document.getElementById('plannedPercent').textContent = plannedVal + '%';
-  document.getElementById('variancePercent').textContent = (varianceVal > 0 ? '+' : '') + varianceVal + '%';
+  document.getElementById('variancePercent').textContent = varianceVal + '%';
   document.getElementById('spiVal').textContent = spiVal;
-  
-  // Update Progress Ring (Animasi SVG lingkaran)
-  const ring = document.getElementById('progressRing');
-  const ringCircumference = 578; // 2 * pi * 92
-  const ringOffset = ringCircumference - (progressVal / 100) * ringCircumference;
-  setTimeout(() => { ring.style.strokeDashoffset = ringOffset; }, 400);
 
-  // Animasi Angka Persentase Progres
-  const progNumEl = document.getElementById('progressNum');
-  const duration = 1500;
-  const startTime = performance.now();
-  function animateProgNum(now) {
-    const elapsed = now - startTime;
-    const progAnim = Math.min(elapsed / duration, 1);
-    const current = progAnim * progressVal;
-    progNumEl.innerHTML = current.toFixed(1) + '<span style="color:var(--accent);font-size:32px">%</span>';
-    if (progAnim < 1) requestAnimationFrame(animateProgNum);
+  // Animasi ring progres keseluruhan
+  const ringEl = document.getElementById('progressRing');
+  setTimeout(() => {
+    ringEl.style.strokeDashoffset = 578 - (578 * progressVal / 100);
+  }, 300);
+
+  // Animasi angka progres (count-up)
+  const progressNumEl = document.getElementById('progressNum');
+  let numAnimStart = null;
+  function animateProgressNum(ts) {
+    if (numAnimStart === null) numAnimStart = ts;
+    const t = Math.min((ts - numAnimStart) / 1600, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    progressNumEl.innerHTML = (progressVal * eased).toFixed(1) + '<span style="color:var(--accent);font-size:32px">%</span>';
+    if (t < 1) requestAnimationFrame(animateProgressNum);
   }
-  requestAnimationFrame(animateProgNum);
+  requestAnimationFrame(animateProgressNum);
 
-  // 8.6 RENDER KURVA S (CHART.JS)
-  const labels = [];
+  // 8.6 MILESTONE TIMELINE
+  setTimeout(() => {
+    document.getElementById('msProgressBar').style.width = progressVal + '%';
+  }, 300);
+
+  // Label bulan pada timeline
+  const tlIds = ['tl1', 'tl2', 'tl3', 'tl4', 'tl5', 'tl6', 'tl7'];
+  tlIds.forEach((id, i) => {
+    const d = addMonths(projectStart, Math.round(i * contractDuration / (tlIds.length - 1)));
+    document.getElementById(id).textContent = monthNamesShort[d.getMonth()] + ' ' + String(d.getFullYear()).slice(-2);
+  });
+
+  // Target milestone (dihitung dari tanggal mulai kontrak)
+  const targetPersiapan  = addMonths(projectStart, 1);
+  const targetPondasi    = addMonths(projectStart, 3);
+  const targetTopOff     = addMonths(projectStart, 5);
+  const targetArsitektur = addMonths(projectStart, 6);
+  const targetMEP        = addMonths(projectStart, 7);
+
+  document.getElementById('msL10').textContent = 'Target: ' + formatDateShort(targetPersiapan);
+  document.getElementById('msL16').textContent = 'Target: ' + formatDateShort(targetPondasi);
+  document.getElementById('msTopOff').textContent = 'Target: ' + formatDateShort(targetTopOff);
+  document.getElementById('msArsitektur').textContent = 'Target: ' + formatDateShort(targetArsitektur);
+  document.getElementById('msMEP').textContent = 'Target: ' + formatDateShort(targetMEP);
+  document.getElementById('msMEPDays').textContent = Math.max(diffDays(targetMEP, reportDate), 0) + ' hari';
+
+  // 8.7 KURVA S — PROGRESS KUMULATIF (CHART.JS)
+  const chartLabels = [];
   const plannedData = [];
-  const actualData = [];
-
   for (let i = 0; i <= contractDuration; i++) {
     const d = addMonths(projectStart, i);
-    labels.push(monthNamesShort[d.getMonth()] + ' ' + d.getFullYear().toString().slice(-2));
-    
-    // Hitung planned progress kumulatif untuk setiap bulan (S-Curve logistic)
+    chartLabels.push(monthNamesShort[d.getMonth()] + ' ' + String(d.getFullYear()).slice(-2));
     let pVal = +(1 / (1 + Math.exp(-7 * ((i / contractDuration) - 0.5))) * 100).toFixed(1);
     if (i >= contractDuration) pVal = 100.0;
     plannedData.push(pVal);
-
-    // Isi data aktual sesuai progres yang sudah tercapai
-    if (i < monthsPassed) {
-      actualData.push(pVal); // Anggap planned = actual untuk bulan yang sudah lewat (bisa dirubah manual)
-    } else if (i === monthsPassed) {
-      actualData.push(progressVal);
-    } else {
-      actualData.push(null);
-    }
   }
 
-  const sCurveCtx = document.getElementById('sCurveChart').getContext('2d');
-  new Chart(sCurveCtx, {
+  const actualData = plannedData.map((p, i) => {
+    if (i > monthsPassed) return null;
+    if (i === monthsPassed) return progressVal;
+    return +(p * (progressVal / plannedData[monthsPassed])).toFixed(1);
+  });
+
+  // Garis vertikal "Hari Ini"
+  const todayLinePlugin = {
+    id: 'todayLine',
+    afterDatasetsDraw(chart) {
+      const x = chart.scales.x.getPixelForValue(monthsPassed);
+      const { top, bottom } = chart.chartArea;
+      const ctx = chart.ctx;
+      ctx.save();
+      ctx.strokeStyle = '#ffd400';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(x, top);
+      ctx.lineTo(x, bottom);
+      ctx.stroke();
+      ctx.restore();
+    }
+  };
+
+  new Chart(document.getElementById('sCurveChart'), {
     type: 'line',
     data: {
-      labels: labels,
+      labels: chartLabels,
       datasets: [
         {
-          label: 'Planned (Baseline)',
+          label: 'Planned',
           data: plannedData,
           borderColor: '#7c8ba1',
-          backgroundColor: 'rgba(124,139,161,0.1)',
+          backgroundColor: 'rgba(124,139,161,0.06)',
           borderWidth: 2,
+          borderDash: [6, 4],
+          pointRadius: 2.5,
+          pointBackgroundColor: '#7c8ba1',
+          pointBorderColor: 'transparent',
           fill: true,
-          tension: 0.4,
-          pointRadius: 0,
-          pointHoverRadius: 5,
+          tension: 0.4
         },
         {
-          label: 'Actual Progress',
+          label: 'Actual',
           data: actualData,
           borderColor: '#ff6b1a',
-          backgroundColor: 'rgba(255,107,26,0.15)',
-          borderWidth: 3,
-          fill: true,
-          tension: 0.4,
-          pointRadius: 4,
+          backgroundColor: 'rgba(255,107,26,0.10)',
+          borderWidth: 2.5,
+          pointRadius: 3.5,
           pointBackgroundColor: '#ff6b1a',
-          pointHoverRadius: 6,
-          spanGaps: true
+          pointBorderColor: 'transparent',
+          pointHoverRadius: 5,
+          fill: true,
+          tension: 0.4
         }
       ]
     },
@@ -720,15 +760,16 @@
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#11151b',
+          backgroundColor: '#171c24',
+          borderColor: '#38414f',
+          borderWidth: 1,
           titleColor: '#ecebe6',
           bodyColor: '#a8aebb',
-          borderColor: '#262d38',
-          borderWidth: 1,
           padding: 10,
+          filter: function(item) { return item.parsed.y !== null; },
           callbacks: {
             label: function(context) {
-              return context.dataset.label + ': ' + (context.parsed.y !== null ? context.parsed.y + '%' : 'Belum dimulai');
+              return ' ' + context.dataset.label + ': ' + context.parsed.y + '%';
             }
           }
         }
@@ -736,60 +777,37 @@
       scales: {
         x: {
           grid: { color: 'rgba(255,255,255,0.04)' },
-          ticks: { color: '#6b7382', font: { family: 'JetBrains Mono', size: 10 } }
+          ticks: { color: '#6b7382', font: { family: 'JetBrains Mono', size: 10 }, maxRotation: 0 }
         },
         y: {
-          beginAtZero: true,
+          min: 0,
           max: 100,
           grid: { color: 'rgba(255,255,255,0.04)' },
           ticks: {
             color: '#6b7382',
             font: { family: 'JetBrains Mono', size: 10 },
+            stepSize: 25,
             callback: function(value) { return value + '%'; }
           }
         }
       }
-    }
+    },
+    plugins: [todayLinePlugin]
   });
 
-  document.getElementById('sCurveUpdate').textContent = formatDateShort(reportDate);
-  document.getElementById('photoUpdate').textContent = 'Pembaruan terakhir: ' + formatDateShort(reportDate);
+  document.getElementById('sCurveUpdate').textContent = 'Last update: ' + formatDateShort(reportDate);
 
-  // 8.7 MILESTONE & LIVE CLOCK
-  document.getElementById('msProgressBar').style.width = progressVal + '%';
-  
-  const msL10Date = addMonths(projectStart, 0);
-  document.getElementById('msL10').textContent = 'Target: ' + formatDateShort(msL10Date);
-
-  const msL16Date = addMonths(projectStart, 1);
-  document.getElementById('msL16').textContent = 'Target: ' + formatDateShort(msL16Date);
-
-  const msTopOffDate = addMonths(projectStart, 3);
-  document.getElementById('msTopOff').textContent = 'Target: ' + formatDateShort(msTopOffDate);
-  
-  const msArsitekturDate = addMonths(projectStart, 4);
-  document.getElementById('msArsitektur').textContent = 'Target: ' + formatDateShort(msArsitekturDate);
-
-  const msMEPDate = addMonths(projectStart, 6);
-  document.getElementById('msMEP').textContent = 'Target: ' + formatDateShort(msMEPDate);
-  document.getElementById('msMEPDays').textContent = diffDays(msMEPDate, reportDate) + ' hari';
-
-  // Timeline Bawah
-  document.getElementById('tl1').textContent = formatDateShort(addMonths(projectStart, 0));
-  document.getElementById('tl2').textContent = formatDateShort(addMonths(projectStart, 1));
-  document.getElementById('tl3').textContent = formatDateShort(addMonths(projectStart, 2));
-  document.getElementById('tl4').textContent = formatDateShort(addMonths(projectStart, 3));
-  document.getElementById('tl5').textContent = formatDateShort(addMonths(projectStart, 4));
-  document.getElementById('tl6').textContent = formatDateShort(addMonths(projectStart, 6));
-  document.getElementById('tl7').textContent = formatDateShort(projectEnd);
-
-  function updateClock() {
-    document.getElementById('liveClock').textContent = getTimeStr(getWIBNow());
+  // 8.8 JAM LIVE WIB
+  const liveClockEl = document.getElementById('liveClock');
+  function updateLiveClock() {
+    liveClockEl.textContent = getTimeStr(getWIBNow());
   }
-  setInterval(updateClock, 1000);
-  updateClock();
+  updateLiveClock();
+  setInterval(updateLiveClock, 1000);
 
-  document.getElementById('footerSync').textContent = formatDateLong(reportDate) + ' ' + getTimeStr(getWIBNow());
+  // 8.9 STATUS SYNC
+  document.getElementById('footerSync').textContent = formatDateShort(reportDate) + ' ' + getTimeStr(getWIBNow()) + ' WIB';
+  document.getElementById('photoUpdate').textContent = 'Pembaruan terakhir: ' + formatDateLong(reportDate);
 </script>
 
 </body>
