@@ -408,7 +408,9 @@
       <div class="termin-row">
         <div class="termin-num done">3</div>
         <div class="termin-info">
-          <div class="termin-label">Tahap 3</div>
+          <div class="termin-label">Tahap 3
+          <span class="pill-lunas">✓ Lunas</span>
+          </div>
           <div class="termin-desc">
             Pembayaran sebesar <strong>25%</strong> (dua puluh lima persen), pembayaran dilakukan saat progress pekerjaan <strong>50%</strong> (lima Puluh persen) dan akan dilaksanakan sampai dengan <strong>75%</strong> (tujuh puluh lima persen).
           </div>
@@ -943,6 +945,7 @@
       el1.innerHTML = `
         <span style="color:var(--success); font-weight:700;">✓ Pembayaran Lunas</span><br>
         <span style="color:var(--fg-dim);">Progress aktual keseluruhan saat ini: <strong style="color:var(--fg)">${p}%</strong></span>
+        <span style="color:var(--fg-dim);">Tagihan berikutnya setelah progres 75% </span>
       `;
       el1.style.borderColor = 'rgba(95,208,126,0.2)';
       el1.style.background = 'rgba(95,208,126,0.03)';
